@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Timer</title>
+</head>
+<body>
+  <h1>Simple Timer</h1>
+  <div id="timer"></div>
+  <button onclick="startTimer(60)">Start Timer</button>
+  <button onclick="stopTimer()">Stop Timer</button>
+
+  <script>
+    let countdown;
+    
+    function startTimer(seconds) {
+      clearInterval(countdown); // Clear any existing timers
+      displayTimeLeft(seconds);
+
+      const startTime = Date.now();
+      const endTime = startTime + seconds * 1000;
+
+      countdown = setInterval(() => {
+        const secondsLeft = Math.round((endTime - Date.now()) / 1000);
+
+        if (secondsLeft < 0) {
+          clearInterval(countdown);
+          return;
+        }
+
+        displayTimeLeft(secondsLeft);
+      }, 1000);
+    }
+
+    function displayTimeLeft(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const remainderSeconds = seconds % 60;
+      const display = `${minutes}:${remainderSeconds < 10 ? '0' : ''}${remainderSeconds}`;
+      document.getElementById('timer').textContent = display;
+    }
+
+    function stopTimer() {
+      clearInterval(countdown);
+      document.getElementById('timer').textContent = 'Timer Stopped';
+    }
+  </script>
+</body>
+</html>
